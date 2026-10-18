@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
 
     steps:
       - name: Checkout code
@@ -18,7 +19,7 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: Install buildozer dependencies
+      - name: Install system dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -34,17 +35,29 @@ jobs:
             zlib1g-dev \
             liblzma-dev \
             openjdk-17-jdk \
-            unzip
+            unzip \
+            autoconf \
+            libtool \
+            pkg-config
 
       - name: Install buildozer
         run: |
-          pip install buildozer cython
+          pip install --upgrade pip
+          pip install buildozer cython==0.29.36
 
       - name: Build APK
         run: |
-          buildozer android debug
+          buildozer android debug 2>&1 | tee build.log
         env:
           GRADLE_OPTS: "-Xmx2g"
+          ANDROID_SDK_ROOT: /opt/android-sdk
+
+      - name: Find APK
+        id: find_apk
+        run: |
+          ls -la bin/
+          find bin/ -name "*.apk" > apk_path.txt
+          cat apk_path.txt
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
@@ -52,3 +65,11 @@ jobs:
           name: autovisit-apk
           path: bin/*.apk
           if-no-files-found: error
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
+          if-no-files-found: ignore

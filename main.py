@@ -17,19 +17,17 @@ import requests
 try:
     import cloudscraper
     HAS_CLOUDSCRAPER = True
-except ImportError:
+except Exception:
     HAS_CLOUDSCRAPER = False
 
 from kivy.clock import Clock
 from kivy.lang import Builder
-from kivy.properties import BooleanProperty, NumericProperty, StringProperty
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.screenmanager import Screen
+from kivy.properties import BooleanProperty
 from kivymd.app import MDApp
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.label import MDLabel
-from kivymd.uix.list import MDList, OneLineListItem, TwoLineAvatarIconListItem
+from kivymd.uix.list import MDList, OneLineListItem
 from kivymd.uix.textfield import MDTextField
 
 # ====== GIAO DIỆN (KivyMD) ======

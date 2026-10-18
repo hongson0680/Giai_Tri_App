@@ -13,16 +13,7 @@ App Python chạy trực tiếp trên Android, tự động visit nhiều URL th
 
 ### Cách 1: Tự build bằng GitHub Actions (khuyến nghị)
 
-1. Tạo repo GitHub mới, đẩy code lên:
-   ```bash
-   cd auto-app
-   git init
-   git add .
-   git commit -m "init"
-   git branch -M main
-   git remote add origin https://github.com/<user>/<repo>.git
-   git push -u origin main
-   ```
+1. Fork repo này về tài khoản GitHub của bạn
 
 2. Vào tab **Actions** → chọn workflow "Build Android APK" → bấm **Run workflow**
 
